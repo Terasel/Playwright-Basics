@@ -20,14 +20,17 @@ test('get started link', async ({ page }) => {
 test('test', async ({ page }) => {
 
   await page.goto('https://www.mercadolibre.com.co/')
-
   await page.locator('input[id=\'cb1-edit\']').fill('Iphone')
-
   await page.keyboard.press('Enter')
-
   await expect(page.locator('//ol[contains(@class, \'ui-search-layout\')]')).toBeVisible()
 
-  await page.pause()
+  //await page.pause()
+
+  const titles = await page.locator('//ol[contains(@class, \'ui-search-layout\')]//li//h3').allInnerTexts()
+  console.log('Amount of products:', titles.length)
+  for (let title of titles) {
+    console.log('Product title: ', title)
+  }
 
   // await page.goto('https://playwright.dev/');
 
