@@ -14,6 +14,26 @@ test('purchase an item', async ({ page }) => {
 
     const randomItem = itemsContainer[randomIndex]
 
-    await page.pause()
+    const expectedDescription = await randomItem.locator('.inventory_item_desc').innerText()
+    const expectedName = await randomItem.locator('.inventory_item_name').innerText()
+    const expectedPrice = await randomItem.locator('.inventory_item_price').innerText()
+
+    console.log(`Price: ${expectedPrice} Name: ${expectedName} Description: ${expectedDescription}`)
+
+    await randomItem.getByRole('button', { name: 'Add to cart' }).click()
+
+    await page.locator('a.shopping_cart_link').click()
+
+    //await page.pause()
+
+    expect(page.getByRole('button', {name: 'Checkout'})).toBeVisible()
+
+    const actualName = await page.locator('.inventory_item_name').innerText()
+    const actualDescription = await page.locator('.inventory_item_desc').innerText()
+    const actualPrice = await page.locator('.inventory_item_price').innerText()
+
+    expect(actualName).toEqual(expectedName)
+    expect(actualDescription).toEqual(expectedDescription)
+    expect(actualPrice).toEqual(expectedPrice)
 
 })
