@@ -36,4 +36,15 @@ test('purchase an item', async ({ page }) => {
     expect(actualDescription).toEqual(expectedDescription)
     expect(actualPrice).toEqual(expectedPrice)
 
+    await page.getByRole('button', { name: 'Checkout' }).click()
+
+    await page.getByRole('textbox', { name: 'First Name' }).fill('Goku')
+    await page.getByRole('textbox', { name: 'Last Name' }).fill('Sayayin')
+    await page.getByRole('textbox', { name: 'Zip/Postal Code' }).fill('11000')
+
+    await page.getByRole('button', { name: 'Continue' }).click()
+    await page.getByRole('button', { name: 'Finish' }).click()
+
+    await expect(page.getByRole('heading', {name: 'Thank you for your order!'})).toBeVisible()
+
 })
