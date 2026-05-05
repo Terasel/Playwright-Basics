@@ -12,15 +12,21 @@ export class LoginPage{
         this.loginButton = page.getByRole('button', { name: 'Login' })
     }
 
-    async fillUsername(){
-        this.usernameTextbox.fill('standard_user')
+    async fillUsername(username:string){
+        await this.usernameTextbox.fill(username)
     }
 
-    async fillPassword(){
-        this.passwordTextbox.fill('secret_sauce')
+    async fillPassword(password:string){
+        await this.passwordTextbox.fill(password)
     }
 
     async clickOnLogin(){
-        this.loginButton.click()
+        await this.loginButton.click()
+    }
+
+    async loginWithCredentials(username:string, password:string){
+        await this.fillUsername(username)
+        await this.fillPassword(password)
+        await this.clickOnLogin()
     }
 }
