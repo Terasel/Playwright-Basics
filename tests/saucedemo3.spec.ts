@@ -7,6 +7,7 @@ test('purchase an item', async ({ page }) => {
 
     const login = new LoginPage(page)
     await login.loginWithCredentials('standard_user', 'secret_sauce')
+    await login.checkSuccessfulLogin()
 
     const itemsContainer = await page.locator('#inventory_container .inventory_item').all()
 
@@ -46,5 +47,26 @@ test('purchase an item', async ({ page }) => {
     await page.getByRole('button', { name: 'Finish' }).click()
 
     await expect(page.getByRole('heading', { name: 'Thank you for your order!' })).toBeVisible()
+
+})
+
+test('purchase an item 1', async ({ page }) => {
+
+    await page.goto('https://www.saucedemo.com/')
+
+    await page.getByRole('textbox', { name: 'Username' }).fill('standard_user')
+    await page.getByRole('textbox', { name: 'Password' }).fill('secret_sauce')
+    await page.getByRole('button', { name: 'Login' }).click()
+
+})
+
+test('navigate', async ({ page }) => {
+
+    await page.goto(process.env.URL)
+    await page.pause()
+
+    // await page.getByRole('textbox', { name: 'Username' }).fill('standard_user')
+    // await page.getByRole('textbox', { name: 'Password' }).fill('secret_sauce')
+    // await page.getByRole('button', { name: 'Login' }).click()
 
 })

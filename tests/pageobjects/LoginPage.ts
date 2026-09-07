@@ -1,15 +1,17 @@
-import { Locator, Page } from "@playwright/test"
+import { Locator, Page, expect } from "@playwright/test"
 
 export class LoginPage{
 
     private readonly usernameTextbox: Locator
     private readonly passwordTextbox: Locator
     private readonly loginButton: Locator
+    private readonly shoppingCartIcon: Locator
 
     constructor(page: Page){
         this.usernameTextbox = page.getByRole('textbox', { name: 'Username' })
         this.passwordTextbox = page.getByRole('textbox', { name: 'Password' })
         this.loginButton = page.getByRole('button', { name: 'Login' })
+        this.shoppingCartIcon = page.locator("xpath=//a[contains(@class, 'shopping_cart_link')]")
     }
 
     async fillUsername(username:string){
@@ -28,5 +30,9 @@ export class LoginPage{
         await this.fillUsername(username)
         await this.fillPassword(password)
         await this.clickOnLogin()
+    }
+
+    async checkSuccessfulLogin(){
+        await expect(this.shoppingCartIcon).toBeVisible()
     }
 }

@@ -1,12 +1,16 @@
 import { defineConfig, devices } from '@playwright/test';
 
+// Provide a minimal declaration for `process` to satisfy TypeScript in
+// environments where Node types are not installed.
+declare const process: any;
+
 /**
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv
  */
-// import dotenv from 'dotenv';
-// import path from 'path';
-// dotenv.config({ path: path.resolve(__dirname, '.env') });
+import dotenv from 'dotenv';
+import path from 'path';
+dotenv.config({ path: path.resolve(__dirname, `.env.${process.env.NODE_ENV ? process.env.NODE_ENV : 'dev'}`) });
 
 /**
  * See https://playwright.dev/docs/test-configuration.
